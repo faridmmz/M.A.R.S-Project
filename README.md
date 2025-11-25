@@ -2,31 +2,91 @@
 
 **Market Analysis & Risk Simulation** - A turn-based strategic simulation game where players manage an aerospace company operating Type 2 LEO vehicles.
 
-## ⚡ Quick Start (Choose Your Method)
+## ⚡ Quick Start
 
-### 🐳 Docker - ZERO Dependencies Required! (RECOMMENDED)
+> **💡 New to the project?** Check out [QUICK_START.md](QUICK_START.md) for step-by-step instructions!
+
+### 🐳 Option 1: Docker (Recommended - No Dependencies!)
+
 **Works on Windows, Mac, and Linux!**
 
-**Windows:** Double-click `start-docker.bat`  
-**Mac/Linux:** Run `chmod +x start-docker.sh && ./start-docker.sh`  
-**Or run:** `docker-compose up`
+**Windows:**
+- Double-click `start-docker.bat` or run `docker-compose up`
 
-✅ No Python needed  
-✅ No Node.js needed  
-✅ Just Docker Desktop!
+**Mac/Linux:**
+```bash
+chmod +x start-docker.sh
+./start-docker.sh
+```
+Or simply: `docker-compose up`
 
-### 🪟 Windows Users - With Dependencies
-**Double-click `start.bat`** - Requires Python & Node.js installed
+✅ **No Python or Node.js installation needed!**  
+✅ Just install [Docker Desktop](https://www.docker.com/products/docker-desktop/) and you're ready to go!
 
-**Don't have Python/Node.js?** Use Docker instead (see above) or run `check-dependencies.bat` to see what's missing.
+The game will be available at `http://localhost:3000`
 
-### 🍎 Mac/Linux Users - With Dependencies
-**Run:** `chmod +x start.sh && ./start.sh` - Requires Python 3.11+ & Node.js 18+ installed
+**To stop:** Press `Ctrl+C` or run `docker-compose down`
 
-**Don't have Python/Node.js?** Use Docker instead (see above) - it's the easiest option!
+### 🪟 Option 2: With Dependencies Installed
 
-### 📝 Manual Setup
-See detailed instructions below.
+**Windows:**
+- Double-click `start.bat` (or run `check-dependencies.bat` first to verify requirements)
+- Requires Python 3.11+ and Node.js 18+
+
+**Mac/Linux:**
+```bash
+chmod +x start.sh
+./start.sh
+```
+- Requires Python 3.11+ and Node.js 18+
+
+The game will be available at `http://localhost:3000`
+
+### 💻 Option 3: Manual Setup (For Developers)
+
+#### Prerequisites
+- Python 3.11 or higher
+- Node.js 18 or higher
+- npm or yarn
+
+#### Installation Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/faridmmz/M.A.R.S-Project.git
+   cd "M.A.R.S Project"
+   ```
+
+2. **Backend Setup**
+   ```bash
+   cd backend
+   pip install -r requirements.txt
+   # On Mac/Linux, you may need: pip3 install -r requirements.txt
+   ```
+
+3. **Frontend Setup**
+   ```bash
+   cd ../frontend
+   npm install
+   ```
+
+#### Running the Application
+
+**Terminal 1 - Backend:**
+```bash
+cd backend
+python -m uvicorn api:app --reload --host 127.0.0.1 --port 8000
+# On Mac/Linux, use: python3 -m uvicorn api:app --reload --host 127.0.0.1 --port 8000
+```
+Backend API: `http://localhost:8000`  
+API Docs: `http://localhost:8000/docs` (Swagger UI)
+
+**Terminal 2 - Frontend:**
+```bash
+cd frontend
+npm run dev
+```
+Frontend: `http://localhost:3000`
 
 ---
 
@@ -54,100 +114,6 @@ M.A.R.S. is a complete, production-ready business simulation game that combines 
 - **Charts**: Recharts
 - **Deployment**: Docker-ready, supports Render, Railway, Vercel, Netlify
 
-## 🚀 Quick Start
-
-### Option 1: Docker - One-Click Start (Easiest) ⚡
-
-**Windows:**
-```bash
-start-docker.bat
-```
-Or double-click `start-docker.bat` in File Explorer.
-
-**Mac/Linux:**
-```bash
-chmod +x start-docker.sh
-./start-docker.sh
-```
-
-**Or run directly:**
-```bash
-docker-compose up
-```
-
-This will:
-- Build and start the backend API
-- Build and start the frontend
-- Make everything available at `http://localhost:3000`
-- **No Python or Node.js installation needed!**
-
-**To stop:**
-```bash
-docker-compose down
-```
-
-### Option 2: With Dependencies Installed
-
-**Windows:**
-```bash
-start.bat
-```
-Or double-click `start.bat` - This will automatically start both backend and frontend servers in separate windows.
-
-**Mac/Linux:**
-```bash
-chmod +x start.sh
-./start.sh
-```
-This requires Python 3.11+ and Node.js 18+ to be installed.
-
-### Option 3: Manual Setup
-
-#### Prerequisites
-
-- Python 3.11 or higher
-- Node.js 18 or higher
-- npm or yarn
-
-#### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd "M.A.R.S Project"
-   ```
-
-2. **Backend Setup**
-   ```bash
-   cd backend
-   pip install -r requirements.txt
-   ```
-
-3. **Frontend Setup**
-   ```bash
-   cd ../frontend
-   npm install
-   ```
-
-#### Running the Application
-
-1. **Start the Backend API** (in one terminal)
-   ```bash
-   cd backend
-   python -m uvicorn api:app --reload --host 127.0.0.1 --port 8000
-   ```
-   The API will be available at `http://localhost:8000`
-
-2. **Start the Frontend** (in another terminal)
-   ```bash
-   cd frontend
-   npm run dev
-   ```
-   The frontend will be available at `http://localhost:5173` (or the port Vite assigns)
-
-3. **Open in Browser**
-   Navigate to the frontend URL shown in the terminal
-
 ## 📁 Project Structure
 
 ```
@@ -158,7 +124,7 @@ M.A.R.S Project/
 │   ├── models.py              # Data models (GlobalConfig, GameState, PlayerInputs)
 │   ├── scoring.py             # Scoring system
 │   ├── financial_metrics.py   # NPV, ROI, IRR calculations
-│   ├── projections.py          # Real-time projection calculations
+│   ├── projections.py         # Real-time projection calculations
 │   ├── investor_system.py     # Investor attraction system
 │   ├── news_generator.py      # News feed generation
 │   ├── flavor_text.py         # Contextual flavor text
@@ -183,10 +149,17 @@ M.A.R.S Project/
 │   │   │   └── WinScreen.tsx
 │   │   └── index.css
 │   ├── package.json
-│   └── vite.config.ts
+│   ├── vite.config.ts
+│   └── Dockerfile             # Docker configuration
 │
-├── README.md                   # This file
-├── Roadmap.V3.md              # Current development roadmap
+├── start-docker.bat           # Windows Docker start script
+├── start-docker.sh            # Mac/Linux Docker start script
+├── start.bat                  # Windows start script (requires dependencies)
+├── start.sh                   # Mac/Linux start script (requires dependencies)
+├── check-dependencies.bat     # Windows dependency checker
+├── docker-compose.yml         # Docker Compose configuration
+├── README.md                  # This file
+├── QUICK_START.md             # Quick start guide
 └── .gitignore                 # Git ignore rules
 ```
 
@@ -371,6 +344,8 @@ cd backend
 python -m uvicorn api:app --reload --host 127.0.0.1 --port 8000
 ```
 
+**Mac/Linux:** Use `python3` instead of `python`
+
 **Note**: Make sure you're in the `backend/` directory when running the server.
 
 ### Frontend Development
@@ -379,6 +354,8 @@ python -m uvicorn api:app --reload --host 127.0.0.1 --port 8000
 cd frontend
 npm run dev
 ```
+
+The frontend dev server runs on `http://localhost:3000` (configured in `vite.config.ts`)
 
 ### Building for Production
 
@@ -418,6 +395,31 @@ This project demonstrates:
 - **Full-Stack Development**: React frontend + FastAPI backend
 - **API Design**: RESTful endpoints with proper error handling
 
+## 🐛 Troubleshooting
+
+### Port Already in Use
+
+- **Backend**: Uses port 8000 - change in `uvicorn` command or `docker-compose.yml`
+- **Frontend**: Uses port 3000 - change in `vite.config.ts` or `docker-compose.yml`
+
+### Python Not Found (Mac/Linux)
+
+- Make sure Python 3.11+ is installed
+- Try `python3` instead of `python`
+- Check installation: `python3 --version`
+
+### npm Not Found
+
+- Install Node.js 18+ from [nodejs.org](https://nodejs.org/)
+- Restart your terminal after installing
+- Verify: `node --version` and `npm --version`
+
+### Docker Issues
+
+- Make sure Docker Desktop is running
+- Try `docker-compose up --build` to rebuild containers
+- Check Docker logs: `docker-compose logs`
+
 ## 📄 License
 
 This project is part of the PoliTOrbital M.A.R.S. Project.
@@ -428,7 +430,8 @@ This is a project for the PoliTOrbital competition. For questions or issues, ple
 
 ## 📚 Additional Resources
 
-- **Roadmap**: See `Roadmap.V3.md` for current development plans
+- **Quick Start Guide**: See [QUICK_START.md](QUICK_START.md) for detailed step-by-step instructions
+- **Roadmap**: See `Roadmap.V3.md` for current development plans (if available)
 - **API Documentation**: Available at `http://localhost:8000/docs` when backend is running (Swagger UI)
 
 ---
