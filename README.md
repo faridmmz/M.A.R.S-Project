@@ -5,7 +5,10 @@
 ## ⚡ Quick Start (Choose Your Method)
 
 ### 🐳 Docker - ZERO Dependencies Required! (RECOMMENDED)
+**Works on Windows, Mac, and Linux!**
+
 **Windows:** Double-click `start-docker.bat`  
+**Mac/Linux:** Run `chmod +x start-docker.sh && ./start-docker.sh`  
 **Or run:** `docker-compose up`
 
 ✅ No Python needed  
@@ -16,6 +19,11 @@
 **Double-click `start.bat`** - Requires Python & Node.js installed
 
 **Don't have Python/Node.js?** Use Docker instead (see above) or run `check-dependencies.bat` to see what's missing.
+
+### 🍎 Mac/Linux Users - With Dependencies
+**Run:** `chmod +x start.sh && ./start.sh` - Requires Python 3.11+ & Node.js 18+ installed
+
+**Don't have Python/Node.js?** Use Docker instead (see above) - it's the easiest option!
 
 ### 📝 Manual Setup
 See detailed instructions below.
@@ -48,24 +56,21 @@ M.A.R.S. is a complete, production-ready business simulation game that combines 
 
 ## 🚀 Quick Start
 
-### Option 1: One-Click Start (Easiest) ⚡
+### Option 1: Docker - One-Click Start (Easiest) ⚡
 
 **Windows:**
 ```bash
-start.bat
+start-docker.bat
 ```
-This will automatically start both backend and frontend servers in separate windows.
+Or double-click `start-docker.bat` in File Explorer.
 
-**Linux/Mac:**
+**Mac/Linux:**
 ```bash
-chmod +x start.sh
-./start.sh
+chmod +x start-docker.sh
+./start-docker.sh
 ```
 
-### Option 2: Docker Compose (No Setup Required) 🐳
-
-If you have Docker installed, this is the easiest way:
-
+**Or run directly:**
 ```bash
 docker-compose up
 ```
@@ -74,11 +79,27 @@ This will:
 - Build and start the backend API
 - Build and start the frontend
 - Make everything available at `http://localhost:3000`
+- **No Python or Node.js installation needed!**
 
 **To stop:**
 ```bash
 docker-compose down
 ```
+
+### Option 2: With Dependencies Installed
+
+**Windows:**
+```bash
+start.bat
+```
+Or double-click `start.bat` - This will automatically start both backend and frontend servers in separate windows.
+
+**Mac/Linux:**
+```bash
+chmod +x start.sh
+./start.sh
+```
+This requires Python 3.11+ and Node.js 18+ to be installed.
 
 ### Option 3: Manual Setup
 

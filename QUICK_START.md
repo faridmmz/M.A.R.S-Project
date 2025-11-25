@@ -2,18 +2,30 @@
 
 ## 🐳 Option 1: Docker - NO Dependencies Needed! (BEST)
 
-**Windows:** Double-click `start-docker.bat`  
-**Or run:** `docker-compose up`
+**Works on Windows, Mac, and Linux!**
 
 ✅ No Python installation needed  
 ✅ No Node.js installation needed  
-✅ Works on Windows, Mac, and Linux  
 ✅ Perfect for sharing with others!
 
+### Windows:
 1. Install Docker Desktop (if not already installed)
    - Download from: https://www.docker.com/products/docker-desktop/
 2. Make sure Docker Desktop is RUNNING
 3. Double-click `start-docker.bat` or run `docker-compose up`
+4. Open browser to `http://localhost:3000`
+
+### Mac/Linux:
+1. Install Docker Desktop (if not already installed)
+   - **Mac:** Download from https://www.docker.com/products/docker-desktop/
+   - **Linux:** Install Docker Engine - see https://docs.docker.com/engine/install/
+2. Make sure Docker is RUNNING
+3. Run:
+   ```bash
+   chmod +x start-docker.sh
+   ./start-docker.sh
+   ```
+   Or simply: `docker-compose up`
 4. Open browser to `http://localhost:3000`
 
 That's it! 🎉
@@ -32,7 +44,23 @@ That's it! 🎉
 
 ---
 
-## 🐳 Option 3: Docker (Command Line)
+## 🍎 Option 3: Mac/Linux Script (Requires Python & Node.js)
+
+1. **Make the script executable and run it:**
+   ```bash
+   chmod +x start.sh
+   ./start.sh
+   ```
+2. Wait for both servers to start
+3. Open your browser to `http://localhost:5173`
+
+**Note:** This requires Python 3.11+ and Node.js 18+ to be installed.
+
+**Don't have Python/Node.js?** Use Docker instead (Option 1) - it's much easier!
+
+---
+
+## 🐳 Option 4: Docker (Command Line)
 
 **Prerequisites:** Docker Desktop installed
 
@@ -55,7 +83,7 @@ docker-compose down
 
 ---
 
-## 💻 Option 4: Manual Setup (For Developers)
+## 💻 Option 5: Manual Setup (For Developers)
 
 ### Step 1: Install Dependencies
 
