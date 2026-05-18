@@ -14,6 +14,12 @@ interface FinancialMetrics {
   total_costs: number;
   profit_margin: number;
   turns: number;
+  // Strategic KPIs (added in market-pivot update)
+  market_penetration_pct?: number;
+  customer_acquisition_cost?: number;
+  reputational_vulnerability?: number;
+  total_passengers?: number;
+  market_scenario?: string;
 }
 
 interface HistoryEntry {
@@ -187,6 +193,41 @@ export default function FinancialDirectorTab({ history }: FinancialDirectorTabPr
           </div>
         </div>
       </div>
+
+      {/* Strategic Market KPIs */}
+      {metrics && (metrics.market_penetration_pct !== undefined || metrics.customer_acquisition_cost !== undefined) && (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+            <h4 className="text-gray-400 text-xs mb-1">Market Penetration</h4>
+            <div className="text-xl font-semibold text-blue-400">
+              {metrics.market_penetration_pct?.toFixed(1) ?? '—'}%
+            </div>
+          </div>
+          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+            <h4 className="text-gray-400 text-xs mb-1">Customer Acq. Cost</h4>
+            <div className="text-xl font-semibold text-purple-400">
+              {metrics.customer_acquisition_cost && metrics.customer_acquisition_cost > 0
+                ? `€${(metrics.customer_acquisition_cost / 1_000_000).toFixed(1)}M`
+                : '—'}
+            </div>
+          </div>
+          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+            <h4 className="text-gray-400 text-xs mb-1">Rep. Vulnerability</h4>
+            <div className={`text-xl font-semibold ${
+              (metrics.reputational_vulnerability ?? 0) < 30 ? 'text-green-400' :
+              (metrics.reputational_vulnerability ?? 0) < 60 ? 'text-yellow-400' : 'text-red-400'
+            }`}>
+              {metrics.reputational_vulnerability?.toFixed(1) ?? '—'}
+            </div>
+          </div>
+          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+            <h4 className="text-gray-400 text-xs mb-1">Total Passengers</h4>
+            <div className="text-xl font-semibold text-green-400">
+              {metrics.total_passengers ?? 0}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Cash Flow Waterfall Chart */}
       <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">

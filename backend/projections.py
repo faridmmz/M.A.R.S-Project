@@ -6,6 +6,7 @@ Shows players the impact of their investments before launching
 from models import GlobalConfig, GameState, PlayerInputs
 from engine import (
     calculate_demand,
+    calculate_demand_segmented,
     calculate_actual_sales,
     calculate_revenue,
     check_mission_failure,
@@ -18,30 +19,7 @@ def calculate_projected_stats(
     current_state: GameState,
     config: GlobalConfig
 ) -> dict:
-    """
-    Calculate projected statistics based on player inputs and current state.
-    This provides live feedback before the turn is executed.
-    
-    Args:
-        player_inputs: Player's planned inputs for the turn
-        current_state: Current game state
-        config: Global configuration
-        
-    Returns:
-        Dictionary with projected statistics:
-        - rd_points: Projected R&D points gained
-        - green_points: Projected green tech points gained
-        - safety_points: Projected safety tech points gained
-        - projected_failure_risk: Estimated failure probability
-        - projected_co2_impact: Estimated CO2 impact if mission succeeds
-        - projected_revenue_min: Minimum estimated revenue
-        - projected_revenue_max: Maximum estimated revenue
-        - projected_demand: Estimated customer demand
-        - projected_sales: Estimated tickets sold
-        - marketing_reputation_boost: Reputation gain from marketing
-        - hr_efficiency_after: HR efficiency after investment
-        - contingency_coverage: How much failure penalty can be mitigated
-    """
+    """Non-mutating pre-turn forecast shown to the player as sliders move."""
     # R&D Points: Every €10M = +1 tech point
     rd_points = player_inputs.rd_invest / 10_000_000
     # Scientific missions grant bonus R&D points on success
@@ -102,35 +80,40 @@ def calculate_projected_stats(
     projected_revenue_max = 0.0
     projected_demand = 0.0
     projected_sales = 0
-    
+    competitor_avg_safety: float | None = None
+    # Safety score for demand competitiveness: base 50, +1 per €2M invested, capped at 100
+    safety_score = min(100.0, 50.0 + player_inputs.safety_invest / 2_000_000)
+
     if player_inputs.mission_type in ["Short_Suborbital", "Long_Orbital"]:
-        # Calculate demand
-        projected_demand = calculate_demand(
-            player_inputs.ticket_price,
-            current_state.competitor_price,
-            current_state.reputation,
-            config
+        # Calculate demand using the same segmented model as the turn engine
+        demand_result = calculate_demand_segmented(
+            ticket_price=player_inputs.ticket_price,
+            safety_invest=player_inputs.safety_invest,
+            marketing_spend=player_inputs.marketing_spend,
+            reputation=current_state.reputation,
+            market_scenario=current_state.market_scenario,
+            config=config,
+            mission_type=player_inputs.mission_type,
+            has_spaceport=current_state.has_spaceport,
+            tech_unlocks=current_state.tech_unlocks,
+            consecutive_safe_missions=current_state.consecutive_safe_missions,
         )
+        projected_demand = demand_result["total"]
         projected_sales = calculate_actual_sales(projected_demand, config.MAX_PAX)
-        
-        # Revenue range
-        if player_inputs.mission_type == "Short_Suborbital":
-            projected_revenue_min = projected_sales * config.SHORT_SUBORBITAL_REVENUE_MIN
-            projected_revenue_max = projected_sales * config.SHORT_SUBORBITAL_REVENUE_MAX
-        elif player_inputs.mission_type == "Long_Orbital":
-            projected_revenue_min = projected_sales * config.LONG_ORBITAL_REVENUE_MIN
-            projected_revenue_max = projected_sales * config.LONG_ORBITAL_REVENUE_MAX
+        competitor_avg_safety = demand_result["competitor_avg_safety"]
+
+        # Revenue = sales × ticket_price (same formula as engine.py)
+        projected_revenue_min = projected_sales * player_inputs.ticket_price
+        projected_revenue_max = projected_sales * player_inputs.ticket_price
     elif player_inputs.mission_type == "Scientific":
         # Scientific missions: ticket_price is contract value
         projected_revenue_min = player_inputs.ticket_price
         projected_revenue_max = player_inputs.ticket_price
     
-    # Marketing Reputation Boost
+    # Marketing Reputation Boost (assumes success for projection purposes)
     marketing_millions = player_inputs.marketing_spend / 1_000_000
     marketing_reputation_boost = marketing_millions * config.MARKETING_REPUTATION_BOOST
-    projected_reputation = current_state.reputation + marketing_reputation_boost
-    if mission_success_assumed := True:  # Assume success for projection
-        projected_reputation += config.REPUTATION_SUCCESS_BONUS
+    projected_reputation = current_state.reputation + marketing_reputation_boost + config.REPUTATION_SUCCESS_BONUS
     projected_reputation = max(0.0, min(100.0, projected_reputation))
     
     # Investor Interest Gain
@@ -173,12 +156,13 @@ def calculate_projected_stats(
         "estimated_penalty_after_contingency": estimated_penalty_after_contingency,
         "investor_interest_gain": investor_interest_gain,
         "projected_investor_interest": projected_investor_interest,
-        "marketing_reputation_boost": marketing_reputation_boost,
         "projected_reputation": projected_reputation,
         "projected_safety_level": projected_safety_level,
         "meets_safety_requirement": (
-            player_inputs.mission_type != "Long_Orbital" or 
+            player_inputs.mission_type != "Long_Orbital" or
             projected_safety_level >= config.LONG_ORBITAL_SAFETY_REQ
-        )
+        ),
+        "safety_score": safety_score,
+        "competitor_avg_safety": competitor_avg_safety,
     }
 

@@ -92,7 +92,9 @@ Frontend: `http://localhost:3000`
 
 ## 🎯 Project Overview
 
-M.A.R.S. is a complete, production-ready business simulation game that combines market analysis, financial management, risk assessment, and environmental considerations. Players make strategic decisions about pricing, investments, technology research, and mission planning while competing in a dynamic market.
+M.A.R.S. is a **turn-based strategic business simulation and validated research tool** built for the PoliTOrbital Student Aerospace Challenge. Players manage an aerospace company operating Type 2 LEO vehicles over 10 in-game years, making decisions about pricing, investments, technology research, and mission planning while competing in a dynamic market.
+
+Beyond gameplay, M.A.R.S. is the quantitative validation layer for PoliTOrbital's WP4 Market Analysis research — designed to answer a core strategic question: **"Why isn't the LEO tourism market taking off — and what would it take to change that?"**
 
 ### Core Features
 
@@ -107,10 +109,42 @@ M.A.R.S. is a complete, production-ready business simulation game that combines 
 - **Real-time Feedback**: Live projections showing impact of decisions before launching
 - **Narrative Elements**: Contextual flavor text and dynamic news feed
 
+### Theoretical Framework
+
+M.A.R.S. is built on a central thesis from PoliTOrbital's WP4 Market Analysis:
+
+> **The stagnation of the LEO space tourism market is a supply-side failure, not a demand-side issue.**
+
+Survey data indicates strong latent demand — 56% of respondents would pay $415,000 for a suborbital flight. Yet actual pricing sits 2× to 100× above this threshold, combined with near-zero launch frequency and training/qualification barriers that prevent most willing buyers from converting. The bottleneck is not appetite — it is the structure of the offer.
+
+#### The Aviation Blueprint
+
+The resolution framework draws on the only historical precedent for mass-market democratisation of high-complexity transport: the commercial aviation transition of the **1950s–1970s**. Early commercial aviation was an exclusive, dangerous, high-cost experience for the elite — structurally identical to today's LEO market. The shift to mass market was entirely supply-driven:
+
+- **Repeated vehicle utilisation** (jet engines) collapsed marginal cost per flight
+- **Infrastructure deployment** (airfields → full logistical hubs) scaled cadence and standardised access
+- Neither alone was sufficient — both had to converge simultaneously to cross the elasticity threshold
+
+The simulation encodes this directly: Scenario B's full demand elasticity (×3.2) only unlocks when both the technology gate (Reusable Stage 1) and the infrastructure gate (Dedicated Commercial Spaceport) are active simultaneously — a direct computational model of the Jet Age convergence condition.
+
+#### Embedded Research Layers
+
+Three research threads from the PoliTOrbital WP4 report are encoded as distinct simulation mechanics:
+
+| Layer | Researcher | What It Governs |
+|---|---|---|
+| Market Stagnation Baseline | Helia | Scenario A — 70% structural demand suppression, 50% marketing efficiency penalty, price floors, low cadence cap |
+| Aviation Blueprint Integration | Salvatore | Safety streak trust multiplier, Jet Age elasticity thresholds, three-level supply-side unlock path |
+| LCC Space Model | Antonio | 4-stage R&D progression, autonomous TAM expansion, unbundled ancillary revenue, SPaaS ARR contracts |
+
+Full technical documentation of each research layer: [FEATURES.md §23–25](FEATURES.md).
+
+---
+
 ## 📋 Tech Stack
 
 - **Backend**: Python 3.11+, FastAPI, Pydantic
-- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS
+- **Frontend**: React 19, TypeScript, Vite, Tailwind CSS
 - **Charts**: Recharts
 - **Deployment**: Docker-ready, supports Render, Railway, Vercel, Netlify
 
@@ -128,6 +162,9 @@ M.A.R.S Project/
 │   ├── investor_system.py     # Investor attraction system
 │   ├── news_generator.py      # News feed generation
 │   ├── flavor_text.py         # Contextual flavor text
+│   ├── event_engine.py        # Macro-systemic random event system
+│   ├── run_playthroughs.py    # Dev utility: generates playthrough_results.json
+│   ├── playthrough_results.json  # Pre-generated validation run data (A/B/C)
 │   ├── requirements.txt       # Python dependencies
 │   └── Dockerfile             # Docker configuration
 │
@@ -146,6 +183,7 @@ M.A.R.S Project/
 │   │   │   ├── InvestorTab.tsx
 │   │   │   ├── MissionForecast.tsx
 │   │   │   ├── Advisor.tsx
+│   │   │   ├── PlaythroughViewer.tsx
 │   │   │   └── WinScreen.tsx
 │   │   └── index.css
 │   ├── package.json
@@ -422,7 +460,7 @@ This project demonstrates:
 
 ## 📄 License
 
-This project is part of the PoliTOrbital M.A.R.S. Project.
+This project is released under the [MIT License](LICENSE).
 
 ## 🤝 Contributing
 
@@ -431,7 +469,8 @@ This is a project for the PoliTOrbital competition. For questions or issues, ple
 ## 📚 Additional Resources
 
 - **Quick Start Guide**: See [QUICK_START.md](QUICK_START.md) for detailed step-by-step instructions
-- **Roadmap**: See `Roadmap.V3.md` for current development plans (if available)
+- **Game Design Reference**: See [FEATURES.md](FEATURES.md) for full mechanics documentation
+- **Balance Constants**: See [NUMBERS.md](NUMBERS.md) for all game constants with design rationale
 - **API Documentation**: Available at `http://localhost:8000/docs` when backend is running (Swagger UI)
 
 ---

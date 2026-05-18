@@ -25,6 +25,9 @@ frontend/.vite/
 .DS_Store
 Thumbs.db
 
+# Design assets (originals kept locally, copies live in frontend/public/)
+politorbital_logo.png
+
 # Logs
 *.log
 

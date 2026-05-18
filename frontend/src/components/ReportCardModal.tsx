@@ -15,12 +15,36 @@ interface TurnResult {
     message: string
     demand: number
     competitor_news?: string
+    persona_breakdown?: {
+      uhnw_tourists: number
+      government: number
+      research_industrial: number
+    }
   }
   new_state: {
     budget: number
     reputation: number
     year: number
   }
+  scenario_comparison?: {
+    current_scenario: string
+    shadow_scenario: string
+    shadow_demand: number
+    shadow_profit: number
+    market_penetration_pct: number
+    cac: number
+    reputational_vulnerability: number
+  }
+  event?: {
+    id: string
+    title: string
+    description: string
+    icon: string
+    color: string
+    is_new: boolean
+    turns_remaining: number
+    effects: string[]
+  } | null
 }
 
 interface ReportCardModalProps {
@@ -64,6 +88,38 @@ export default function ReportCardModal({ result, onClose }: ReportCardModalProp
 
         {/* Scrollable Content */}
         <div className="overflow-y-auto flex-1 p-6 space-y-4">
+          {/* Event Card — shown prominently when an event fired */}
+          {result.event && (
+            <div className={`rounded-lg p-4 border-2 ${
+              result.event.color === 'red' ? 'bg-red-950 border-red-600' :
+              result.event.color === 'orange' ? 'bg-orange-950 border-orange-600' :
+              result.event.color === 'green' ? 'bg-green-950 border-green-600' :
+              result.event.color === 'blue' ? 'bg-blue-950 border-blue-600' :
+              'bg-yellow-950 border-yellow-600'
+            }`}>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-2xl">{result.event.icon}</span>
+                <div>
+                  <div className="font-bold text-white">
+                    {result.event.is_new ? '🔔 NEW EVENT: ' : '⏳ ONGOING: '}
+                    {result.event.title}
+                  </div>
+                  {result.event.turns_remaining > 1 && (
+                    <div className="text-xs text-gray-400">{result.event.turns_remaining} turn(s) remaining</div>
+                  )}
+                </div>
+              </div>
+              <p className="text-sm text-gray-200 leading-relaxed">{result.event.description}</p>
+              {result.event.effects.length > 0 && (
+                <div className="mt-2 pt-2 border-t border-white/20">
+                  {result.event.effects.map((eff, i) => (
+                    <div key={i} className="text-sm text-green-300 font-semibold">✓ {eff}</div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Mission Status */}
           <div className="bg-gray-700 rounded-lg p-4">
             <div className="text-lg font-semibold mb-2">Mission Results</div>
@@ -106,6 +162,12 @@ export default function ReportCardModal({ result, onClose }: ReportCardModalProp
                 <span>Investments:</span>
                 <span>{formatCurrency(result.financials.costs.investments)}</span>
               </div>
+              {(result.financials.costs as any).spaceport_cost > 0 && (
+                <div className="flex justify-between text-sm text-blue-400">
+                  <span>Spaceport Capex:</span>
+                  <span>{formatCurrency((result.financials.costs as any).spaceport_cost)}</span>
+                </div>
+              )}
               <div className="flex justify-between text-sm text-gray-400">
                 <span>Total Costs:</span>
                 <span>{formatCurrency(result.financials.costs.total_costs)}</span>
@@ -120,6 +182,45 @@ export default function ReportCardModal({ result, onClose }: ReportCardModalProp
               </div>
             </div>
           </div>
+
+          {/* Persona demand breakdown (if available) */}
+          {result.results.persona_breakdown && (
+            <div className="bg-gray-700 rounded-lg p-4">
+              <div className="text-lg font-semibold mb-3">Demand by Customer Persona</div>
+              <div className="grid grid-cols-3 gap-3 text-sm">
+                <div>
+                  <div className="text-gray-400 mb-1">UHNW Tourists</div>
+                  <div className="font-semibold text-violet-400">
+                    {result.results.persona_breakdown.uhnw_tourists.toFixed(2)}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-gray-400 mb-1">Government</div>
+                  <div className="font-semibold text-sky-400">
+                    {result.results.persona_breakdown.government.toFixed(2)}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-gray-400 mb-1">Research/Industrial</div>
+                  <div className="font-semibold text-emerald-400">
+                    {result.results.persona_breakdown.research_industrial.toFixed(2)}
+                  </div>
+                </div>
+              </div>
+              {result.scenario_comparison && (
+                <div className="mt-3 pt-3 border-t border-gray-600 text-xs">
+                  <span className="text-gray-400">Shadow (Scenario {result.scenario_comparison.shadow_scenario}): </span>
+                  <span className={result.scenario_comparison.shadow_profit > result.financials.profit ? 'text-green-400 font-semibold' : 'text-red-400 font-semibold'}>
+                    {formatCurrency(result.scenario_comparison.shadow_profit)}
+                  </span>
+                  <span className="text-gray-500 ml-2">
+                    ({result.scenario_comparison.shadow_profit > result.financials.profit ? '+' : ''}
+                    {formatCurrency(result.scenario_comparison.shadow_profit - result.financials.profit)} vs actual)
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Updated State */}
           <div className="bg-gray-700 rounded-lg p-4">

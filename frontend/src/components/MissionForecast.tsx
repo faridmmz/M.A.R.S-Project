@@ -35,6 +35,8 @@ interface ProjectedStats {
   estimated_failure_penalty: number
   estimated_penalty_after_contingency: number
   meets_safety_requirement: boolean
+  safety_score: number
+  competitor_avg_safety: number | null
 }
 
 export default function MissionForecast({ inputs }: MissionForecastProps) {
@@ -113,6 +115,24 @@ export default function MissionForecast({ inputs }: MissionForecastProps) {
             </div>
           )}
         </div>
+
+        {/* Safety Score vs Market */}
+        {stats.competitor_avg_safety !== null && inputs.mission_type !== 'Scientific' && (
+          <div className="p-3 rounded bg-gray-700/50 border border-gray-600">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">🛡️ Safety Score</span>
+              <span className={`text-sm font-bold ${stats.safety_score >= stats.competitor_avg_safety ? 'text-green-400' : 'text-orange-400'}`}>
+                {stats.safety_score.toFixed(0)} / 100
+              </span>
+            </div>
+            <div className="text-xs text-gray-400 mt-1">
+              Market avg: {stats.competitor_avg_safety.toFixed(0)} —{' '}
+              {stats.safety_score >= stats.competitor_avg_safety
+                ? <span className="text-green-400">above avg, stealing market share</span>
+                : <span className="text-orange-400">below avg, invest more in Safety to steal share</span>}
+            </div>
+          </div>
+        )}
 
         {/* Tech Gain */}
         <div className="p-3 rounded bg-gray-700/50 border border-gray-600">

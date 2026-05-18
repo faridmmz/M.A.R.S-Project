@@ -14,12 +14,6 @@ def calculate_economic_score(
     total_profit: float,
     years_played: int
 ) -> Tuple[float, str]:
-    """
-    Calculate economic score based on financial performance.
-    
-    Returns:
-        Tuple of (score 0-100, letter grade)
-    """
     # Budget growth (40% weight)
     budget_growth = ((final_budget - starting_budget) / starting_budget) * 100
     budget_score = min(100, max(0, 50 + budget_growth * 2))  # 0% growth = 50, 25% growth = 100
@@ -29,7 +23,7 @@ def calculate_economic_score(
     
     # Profit per year (30% weight)
     avg_profit_per_year = total_profit / max(years_played, 1)
-    profit_score = min(100, max(0, 50 + (avg_profit_per_year / 1_000_000) * 2))  # €50M/year = 100
+    profit_score = min(100, max(0, 50 + (avg_profit_per_year / 1_000_000) * 2))  # €25M/year = 100 (capped)
     
     # Weighted average
     economic_score = (budget_score * 0.4) + (reputation_score * 0.3) + (profit_score * 0.3)
@@ -67,12 +61,6 @@ def calculate_green_score(
     green_tech_level: int,
     green_hydrogen_unlocked: bool
 ) -> Tuple[float, str]:
-    """
-    Calculate green/environmental score.
-    
-    Returns:
-        Tuple of (score 0-100, letter grade)
-    """
     # CO2 per year (50% weight) - Lower is better
     co2_per_year = total_co2 / max(years_played, 1)
     # Target: 50 CO2/year = 100 points, 200 CO2/year = 0 points
@@ -124,18 +112,6 @@ def calculate_final_score(
     economic_weight: float = 0.6,
     green_weight: float = 0.4
 ) -> Tuple[float, str]:
-    """
-    Calculate overall final score.
-    
-    Args:
-        economic_score: Economic performance score (0-100)
-        green_score: Environmental performance score (0-100)
-        economic_weight: Weight for economic score (default 60%)
-        green_weight: Weight for green score (default 40%)
-    
-    Returns:
-        Tuple of (final score 0-100, letter grade)
-    """
     final_score = (economic_score * economic_weight) + (green_score * green_weight)
     
     # Convert to letter grade
@@ -171,18 +147,6 @@ def calculate_game_results(
     profit_history: List[float],
     config: GlobalConfig
 ) -> Dict:
-    """
-    Calculate comprehensive game results and scores.
-    
-    Args:
-        game_state: Final game state
-        starting_budget: Starting budget
-        profit_history: List of profits for each turn
-        config: Global configuration
-    
-    Returns:
-        Dictionary with all scores and breakdowns
-    """
     years_played = game_state.turn_number - 1
     total_profit = sum(profit_history)
     

@@ -38,7 +38,7 @@ That's it! 🎉
 
 1. **Double-click `start.bat`**
 2. Wait for both servers to start
-3. Open your browser to `http://localhost:5173`
+3. Open your browser to `http://localhost:3000`
 
 **Note:** This requires Python 3.11+ and Node.js 18+ to be installed.
 
@@ -52,7 +52,7 @@ That's it! 🎉
    ./start.sh
    ```
 2. Wait for both servers to start
-3. Open your browser to `http://localhost:5173`
+3. Open your browser to `http://localhost:3000`
 
 **Note:** This requires Python 3.11+ and Node.js 18+ to be installed.
 
@@ -115,7 +115,7 @@ npm run dev
 
 ### Step 3: Open Browser
 
-Navigate to the URL shown in the frontend terminal (usually `http://localhost:5173`)
+Navigate to the URL shown in the frontend terminal (usually `http://localhost:3000`)
 
 ---
 
@@ -123,7 +123,7 @@ Navigate to the URL shown in the frontend terminal (usually `http://localhost:51
 
 **Port already in use?**
 - Backend uses port 8000
-- Frontend uses port 5173 (or next available)
+- Frontend uses port 3000
 - Change ports in the commands if needed
 
 **Python not found?**
