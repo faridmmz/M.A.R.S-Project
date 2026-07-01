@@ -119,13 +119,13 @@ Survey data indicates strong latent demand — 56% of respondents would pay $415
 
 #### The Aviation Blueprint
 
-The resolution framework draws on the only historical precedent for mass-market democratisation of high-complexity transport: the commercial aviation transition of the **1950s–1970s**. Early commercial aviation was an exclusive, dangerous, high-cost experience for the elite — structurally identical to today's LEO market. The shift to mass market was entirely supply-driven:
+The resolution framework draws on the only historical precedent for mass-market democratization of high-complexity transport: the commercial aviation transition of the **1950s–1970s**. Early commercial aviation was an exclusive, dangerous, high-cost experience for the elite — structurally identical to today's LEO market. The shift to mass market was entirely supply-driven:
 
-- **Repeated vehicle utilisation** (jet engines) collapsed marginal cost per flight
-- **Infrastructure deployment** (airfields → full logistical hubs) scaled cadence and standardised access
-- Neither alone was sufficient — both had to converge simultaneously to cross the elasticity threshold
+- **Repeated vehicle utilization** (jet engines) collapsed marginal cost per flight.
+- **Infrastructure deployment** (airfields → full logistical hubs) scaled cadence and standardized access.
+- Neither alone was sufficient — both had to converge simultaneously to cross the elasticity threshold.
 
-The simulation encodes this directly: Scenario B's full demand elasticity (×3.2) only unlocks when both the technology gate (Reusable Stage 1) and the infrastructure gate (Dedicated Commercial Spaceport) are active simultaneously — a direct computational model of the Jet Age convergence condition.
+The simulation encodes this directly: Scenario B's full super-linear elasticity threshold (2.5x) only unlocks when both the technology gate (Reusable Stage 1) and the infrastructure gate (Dedicated Commercial Spaceport) are active simultaneously — a direct computational model of the Jet Age convergence condition.
 
 #### Embedded Research Layers
 
@@ -133,12 +133,11 @@ Three research threads from the PoliTOrbital WP4 report are encoded as distinct 
 
 | Layer | Researcher | What It Governs |
 |---|---|---|
-| Market Stagnation Baseline | Helia | Scenario A — 70% structural demand suppression, 50% marketing efficiency penalty, price floors, low cadence cap |
-| Aviation Blueprint Integration | Salvatore | Safety streak trust multiplier, Jet Age elasticity thresholds, three-level supply-side unlock path |
-| LCC Space Model | Antonio | 4-stage R&D progression, autonomous TAM expansion, unbundled ancillary revenue, SPaaS ARR contracts |
+| **Market Stagnation Baseline** | Helia Shooshtari | Scenario A — 70% structural demand suppression, 50% marketing efficiency penalty, price floors, low cadence cap. |
+| **Aviation Blueprint Integration** | Salvatore Caurro | Safety streak trust multiplier, Jet Age elasticity thresholds, three-level supply-side unlock path. |
+| **LCC Space Model** | Antonio Bruccoleri | 4-stage R&D progression, autonomous TAM expansion, unbundled ancillary revenue, SPaaS ARR contracts. |
 
 Full technical documentation of each research layer: [FEATURES.md §23–25](FEATURES.md).
-
 ---
 
 ## 📋 Tech Stack
@@ -207,17 +206,17 @@ M.A.R.S Project/
 
 1. **Short Suborbital/Orbital Tourist**
    - Low risk (5%)
-   - Revenue: €200k-€400k per passenger
-   - High volume potential (up to 7 passengers)
+   - Ticket cost matches suborbital entry baselines (~€450k)
+   - High volume potential (up to 7 passengers per turn)
 
 2. **Long Orbital Stay (Tourist)**
    - Medium risk (15%)
-   - Revenue: €5M-€10M per passenger
+   - Scaled premium pricing matching orbital profiles (up to €10M+ tier)
    - Requires Safety Tech Level 5 to unlock
 
 3. **Scientific/Industrial**
    - High risk (25%)
-   - Fixed contract value (€1M-€100M)
+   - Fixed contract value infrastructure allocations
    - Bonus R&D points on success
 
 ### Investment Options
@@ -462,9 +461,15 @@ This project demonstrates:
 
 This project is released under the [MIT License](LICENSE).
 
-## 🤝 Contributing
+## 🤝 Contributing & HandoffThis 
 
-This is a project for the PoliTOrbital competition. For questions or issues, please refer to the project documentation.
+platform was developed as part of the official PoliTOrbital team submission for the Student Aerospace Challenge. As the codebase moves into open-source status, future generations of student teams or engineering researchers are welcome to fork the repository, extend the simulation variables, or integrate expanded multi-agent market conditions. For comprehensive details behind the core equations, please refer to the integrated software specs inside the repository documentation. 
+
+---
+
+**Status**: ✅ Production Ready - All features implemented and verified for competition presentation.
+
+---
 
 ## 📚 Additional Resources
 
@@ -472,7 +477,3 @@ This is a project for the PoliTOrbital competition. For questions or issues, ple
 - **Game Design Reference**: See [FEATURES.md](FEATURES.md) for full mechanics documentation
 - **Balance Constants**: See [NUMBERS.md](NUMBERS.md) for all game constants with design rationale
 - **API Documentation**: Available at `http://localhost:8000/docs` when backend is running (Swagger UI)
-
----
-
-**Status**: ✅ Production Ready - All features implemented and tested
